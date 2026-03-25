@@ -1,9 +1,9 @@
-import { writeFileSync } from "node:fs";
-import { readFile } from "node:fs/promises";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import { saveAs } from "file-saver";
 
 export const generateConstancia = async (name: string) => {
-	const pdfBytes = await readFile("./public/Constancia.pdf");
+	const response = await fetch("/constancia.pdf");
+	const pdfBytes = await response.arrayBuffer();
 	const pdfDoc = await PDFDocument.load(pdfBytes);
 	const page = pdfDoc.getPage(0);
 
@@ -56,10 +56,8 @@ export const generateConstancia = async (name: string) => {
 	});
 
 	const pdfOut = await pdfDoc.save();
-	return pdfOut;
+	const blob = new Blob([pdfOut.buffer as ArrayBuffer], {
+		type: "application/pdf",
+	});
+	saveAs(blob, `constancia-${name}.pdf`);
 };
-
-await writeFileSync(
-	"./public/ConstanciaActualizada.pdf",
-	await generateConstancia("Jose Alfredo Abad Padilla".toUpperCase()),
-);

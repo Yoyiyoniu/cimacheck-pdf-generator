@@ -20,6 +20,7 @@ import SearchIcon from "../icons/SearchIcon.astro";
 
 <script>
 	import { searchStaffByName } from "../db/supabase";
+	import { generateConstancia } from "../pdfGenerator";
 
 	const input = document.getElementById("search-input") as HTMLInputElement;
 	const resultsContainer = document.getElementById("results") as HTMLDivElement;
@@ -65,13 +66,20 @@ import SearchIcon from "../icons/SearchIcon.astro";
 					(name, i) => `
 					<div class="result-card result-card-animated" style="animation-delay: ${i * 60}ms">
 						<span class="result-name">${name}</span>
-						<a class="result-btn flex gap-2" href="#" data-name="${name}">
+						<button class="result-btn flex gap-2" data-name="${encodeURIComponent(name)}">
 							DESCARGAR
-						</a>
+						</button>
 					</div>
 				`
 				)
 				.join("");
+
+			resultsContainer.querySelectorAll<HTMLButtonElement>("button[data-name]").forEach((btn) => {
+				btn.addEventListener("click", () => {
+					const name = decodeURIComponent(btn.dataset.name ?? "");
+					generateConstancia(name);
+				});
+			});
 		} catch {
 			resultsContainer.innerHTML = `<p class="result-empty text-center">Error al buscar. Intenta de nuevo.</p>`;
 		}
