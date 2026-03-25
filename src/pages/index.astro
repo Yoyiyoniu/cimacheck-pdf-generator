@@ -1,24 +1,57 @@
 ---
-
+import "../styles/global.css";
+import SearchSection from "../components/SearchSection.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>UABC Event | Reconocimientos MyNC</title>
-</head>
-	<body>
-		<h1>Reconocimientos UABC</h1>
-		<h2>Evento Mujeres y niñas en ciencias</h2>
-		<main>
-			<label>
-				Buscar Reconocimientos por nombre
-				<input type="text" placeholder="Tu nombre...">
-			</label>
-		</main>
-	</body>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MUJERES Y NIÑAS EN CIENCIA — UABC 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+
+    <nav>
+      <div class="nav-left-group">
+        <span class="edition-badge">3RA EDICIÓN DEL EVENTO</span>
+        <span class="edition-sub">FACULTAD DE INGENIERÍA MEXICALI</span>
+      </div>
+      <span class="nav-right">MEXICALI 2026</span>
+    </nav>
+
+    <header>
+     <div class="hero-title-wrap">
+        <div class="deco-circle-1"></div>
+        <div class="deco-circle-2"></div>
+        <h1 class="hero-title">
+          <span class="t">MUJERES</span><br/>
+          <span class="b">Y NIÑAS</span><br/>
+          <span class="t">EN</span><br/>
+          <span class="b">CIENCIA</span>
+        </h1>
+      </div>
+    </header>
+
+   <section>
+      <div class="section-header">
+        <span class="section-num">01 /</span>
+        <span class="section-title">Busca tu reconocimiento</span>
+      </div>
+      <div class="search-wrap flex flex-col gap-4">
+        <SearchSection />
+      </div>
+    </section>
+    <footer>
+      <div>
+        <span class="footer-org">UABC · FIM · CPGA</span>
+        <span class="footer-sub">FACULTAD DE INGENIERÍA MEXICALI</span>
+      </div>
+      <span class="footer-right">MEXICALI, B.C. — 2026 &copyHecho Por Rodrigo Leon</span>
+    </footer>
+
+  </body>
 </html>

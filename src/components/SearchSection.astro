@@ -1,0 +1,79 @@
+---
+import SearchIcon from "../icons/SearchIcon.astro";
+---
+
+<div class="search-box">
+	<input
+		type="text"
+		id="search-input"
+		placeholder="ESCRIBE TU NOMBRE..."
+		autocomplete="off"
+	/>
+	<button class="search-btn" id="search-btn" aria-label="Buscar">
+		<SearchIcon />
+	</button>
+</div>
+
+<div id="results" class="flex flex-col gap-3 mt-6">
+	<p class="result-empty text-center">Escribe tu nombre para buscar...</p>
+</div>
+
+<script>
+	import { searchStaffByName } from "../db/supabase";
+
+	const input = document.getElementById("search-input") as HTMLInputElement;
+	const resultsContainer = document.getElementById("results") as HTMLDivElement;
+
+	let debounceTimer: ReturnType<typeof setTimeout>;
+
+	input.addEventListener("input", () => {
+		clearTimeout(debounceTimer);
+		debounceTimer = setTimeout(() => search(input.value), 500);
+	});
+
+	function renderSkeletons() {
+		return Array.from({ length: 3 })
+			.map(
+				() => `
+				<div class="result-card flex items-center justify-between">
+					<div class="animate-pulse bg-gray-200 h-4 rounded w-2/3"></div>
+					<div class="animate-pulse bg-gray-200 h-8 rounded w-24"></div>
+				</div>
+			`
+			)
+			.join("");
+	}
+
+	async function search(query: string) {
+		if (!query.trim()) {
+			resultsContainer.innerHTML = `<p class="result-empty text-center">Escribe tu nombre para buscar...</p>`;
+			return;
+		}
+
+		resultsContainer.innerHTML = renderSkeletons();
+
+		try {
+			const names = await searchStaffByName(query);
+
+			if (!names?.length) {
+				resultsContainer.innerHTML = `<p class="result-empty text-center">No se encontraron resultados.</p>`;
+				return;
+			}
+
+			resultsContainer.innerHTML = names
+				.map(
+					(name, i) => `
+					<div class="result-card result-card-animated" style="animation-delay: ${i * 60}ms">
+						<span class="result-name">${name}</span>
+						<a class="result-btn flex gap-2" href="#" data-name="${name}">
+							DESCARGAR
+						</a>
+					</div>
+				`
+				)
+				.join("");
+		} catch {
+			resultsContainer.innerHTML = `<p class="result-empty text-center">Error al buscar. Intenta de nuevo.</p>`;
+		}
+	}
+</script>
