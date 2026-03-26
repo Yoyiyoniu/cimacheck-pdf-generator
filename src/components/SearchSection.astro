@@ -2,20 +2,22 @@
 import SearchIcon from "../icons/SearchIcon.astro";
 ---
 
-<div class="search-box">
-	<input
-		type="text"
-		id="search-input"
-		placeholder="ESCRIBE TU NOMBRE..."
-		autocomplete="off"
-	/>
-	<button class="search-btn" id="search-btn" aria-label="Buscar">
-		<SearchIcon />
-	</button>
-</div>
+<div class="search-inner">
+	<div class="search-box">
+		<input
+			type="text"
+			id="search-input"
+			placeholder="ESCRIBE TU NOMBRE..."
+			autocomplete="off"
+		/>
+		<button class="search-btn" id="search-btn" aria-label="Buscar">
+			<SearchIcon />
+		</button>
+	</div>
 
-<div id="results" class="flex flex-col gap-3 mt-6">
-	<p class="result-empty text-center">Escribe tu nombre para buscar...</p>
+	<div id="results" class="flex flex-col gap-3 mt-6">
+		<p class="result-empty text-center">Escribe tu nombre para buscar...</p>
+	</div>
 </div>
 
 <script>
@@ -33,7 +35,7 @@ import SearchIcon from "../icons/SearchIcon.astro";
 	});
 
 	function renderSkeletons() {
-		return Array.from({ length: 3 })
+		return Array.from({ length: 5 })
 			.map(
 				() => `
 				<div class="result-card flex items-center justify-between">

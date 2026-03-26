@@ -1,5 +1,5 @@
-import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import { saveAs } from "file-saver";
+import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 
 export const generateConstancia = async (name: string) => {
 	const response = await fetch("/constancia.pdf");
@@ -15,7 +15,7 @@ export const generateConstancia = async (name: string) => {
 
 	const fontTitle = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 	const subFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
-	const textWidth = fontTitle.widthOfTextAtSize(text, fontSize);
+	const textWidth = fontTitle.widthOfTextAtSize(text.toUpperCase(), fontSize);
 	const subTitleWith = fontTitle.widthOfTextAtSize(subTitle, subTitleFontSize);
 
 	const { width, height } = page.getSize();
@@ -29,7 +29,7 @@ export const generateConstancia = async (name: string) => {
 		color: rgb(1, 1, 1),
 	});
 
-	page.drawText(text, {
+	page.drawText(text.toUpperCase(), {
 		x: (width - textWidth) / 2,
 		y: titleY,
 		size: fontSize,
